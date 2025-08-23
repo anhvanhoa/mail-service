@@ -323,6 +323,7 @@ type UpdateMailProviderRequest struct {
 	Encryption    string                 `protobuf:"bytes,6,opt,name=encryption,proto3" json:"encryption,omitempty"`
 	Name          string                 `protobuf:"bytes,7,opt,name=name,proto3" json:"name,omitempty"`
 	TypeId        string                 `protobuf:"bytes,8,opt,name=type_id,json=typeId,proto3" json:"type_id,omitempty"`
+	Status        string                 `protobuf:"bytes,9,opt,name=status,proto3" json:"status,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -409,6 +410,13 @@ func (x *UpdateMailProviderRequest) GetName() string {
 func (x *UpdateMailProviderRequest) GetTypeId() string {
 	if x != nil {
 		return x.TypeId
+	}
+	return ""
+}
+
+func (x *UpdateMailProviderRequest) GetStatus() string {
+	if x != nil {
+		return x.Status
 	}
 	return ""
 }
@@ -882,7 +890,7 @@ const file_mail_provider_v1_mail_provider_proto_rawDesc = "" +
 	"updated_at\x18\v \x01(\tR\tupdatedAt\"r\n" +
 	"\x1aCreateMailProviderResponse\x12\x18\n" +
 	"\amessage\x18\x01 \x01(\tR\amessage\x12:\n" +
-	"\rmail_provider\x18\x02 \x01(\v2\x15.exam.v1.MailProviderR\fmailProvider\"\xdf\x01\n" +
+	"\rmail_provider\x18\x02 \x01(\v2\x15.exam.v1.MailProviderR\fmailProvider\"\xf7\x01\n" +
 	"\x19UpdateMailProviderRequest\x12\x14\n" +
 	"\x05email\x18\x01 \x01(\tR\x05email\x12\x1a\n" +
 	"\bpassword\x18\x02 \x01(\tR\bpassword\x12\x1b\n" +
@@ -893,7 +901,8 @@ const file_mail_provider_v1_mail_provider_proto_rawDesc = "" +
 	"encryption\x18\x06 \x01(\tR\n" +
 	"encryption\x12\x12\n" +
 	"\x04name\x18\a \x01(\tR\x04name\x12\x17\n" +
-	"\atype_id\x18\b \x01(\tR\x06typeId\"r\n" +
+	"\atype_id\x18\b \x01(\tR\x06typeId\x12\x16\n" +
+	"\x06status\x18\t \x01(\tR\x06status\"r\n" +
 	"\x1aUpdateMailProviderResponse\x12\x18\n" +
 	"\amessage\x18\x01 \x01(\tR\amessage\x12:\n" +
 	"\rmail_provider\x18\x02 \x01(\v2\x15.exam.v1.MailProviderR\fmailProvider\"1\n" +

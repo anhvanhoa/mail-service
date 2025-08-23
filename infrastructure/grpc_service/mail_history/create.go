@@ -1,4 +1,4 @@
-package grpcservice
+package grpcmailhistory
 
 import (
 	"context"
@@ -15,7 +15,6 @@ func (mh *mailHistoryService) CreateMailHistory(ctx context.Context, req *proto.
 		TemplateId:    req.TemplateId,
 		Subject:       req.Subject,
 		Body:          req.Body,
-		To:            req.To,
 		Tos:           req.Tos,
 		Data:          make(map[string]any),
 		EmailProvider: req.EmailProvider,
@@ -53,9 +52,8 @@ func (mh *mailHistoryService) CreateMailHistory(ctx context.Context, req *proto.
 			TemplateId:    mailHistory.TemplateId,
 			Subject:       mailHistory.Subject,
 			Body:          mailHistory.Body,
-			To:            mailHistory.To,
 			Tos:           mailHistory.Tos,
-			Data:          req.Data, // Use original proto map
+			Data:          req.Data,
 			EmailProvider: mailHistory.EmailProvider,
 			CreatedBy:     mailHistory.CreatedBy,
 			CreatedAt:     mailHistory.CreatedAt.Format(time.RFC3339),

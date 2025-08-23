@@ -1,4 +1,4 @@
-package grpcservice
+package grpcmailhistory
 
 import (
 	"context"
@@ -36,7 +36,6 @@ func (mh *mailHistoryService) GetAllMailHistory(ctx context.Context, req *proto.
 			TemplateId:    mh.TemplateId,
 			Subject:       mh.Subject,
 			Body:          mh.Body,
-			To:            mh.To,
 			Tos:           mh.Tos,
 			Data:          data,
 			EmailProvider: mh.EmailProvider,

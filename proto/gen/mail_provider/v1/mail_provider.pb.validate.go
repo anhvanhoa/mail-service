@@ -449,6 +449,8 @@ func (m *UpdateMailProviderRequest) validate(all bool) error {
 
 	// no validation rules for TypeId
 
+	// no validation rules for Status
+
 	if len(errors) > 0 {
 		return UpdateMailProviderRequestMultiError(errors)
 	}

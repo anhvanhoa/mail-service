@@ -7,7 +7,12 @@ import (
 
 	"mail-service/bootstrap"
 	"mail-service/domain/service/logger"
+	proto_mail_history "mail-service/proto/gen/mail_history/v1"
+	proto_mail_provider "mail-service/proto/gen/mail_provider/v1"
+	proto_mail_status "mail-service/proto/gen/mail_status/v1"
 	proto_mail_tmpl "mail-service/proto/gen/mail_tmpl/v1"
+	proto_status_history "mail-service/proto/gen/status_history/v1"
+	proto_type_mail "mail-service/proto/gen/type_mail/v1"
 
 	"buf.build/go/protovalidate"
 	protovalidate_middleware "github.com/grpc-ecosystem/go-grpc-middleware/v2/interceptors/protovalidate"
@@ -18,12 +23,18 @@ import (
 type GRPCServer struct {
 	server *grpc.Server
 	port   string
+	log    logger.Log
 }
 
 func NewGRPCServer(
 	env *bootstrap.Env,
 	log logger.Log,
+	mailHistoryService proto_mail_history.MailHistoryServiceServer,
+	mailProviderService proto_mail_provider.MailProviderServiceServer,
 	mailTmplService proto_mail_tmpl.MailTmplServiceServer,
+	mailStatusService proto_mail_status.MailStatusServiceServer,
+	typeMailService proto_type_mail.TypeMailServiceServer,
+	statusHistoryService proto_status_history.StatusHistoryServiceServer,
 ) *GRPCServer {
 	validator, err := protovalidate.New()
 	if err != nil {
@@ -37,6 +48,11 @@ func NewGRPCServer(
 	)
 
 	proto_mail_tmpl.RegisterMailTmplServiceServer(server, mailTmplService)
+	proto_mail_status.RegisterMailStatusServiceServer(server, mailStatusService)
+	proto_type_mail.RegisterTypeMailServiceServer(server, typeMailService)
+	proto_status_history.RegisterStatusHistoryServiceServer(server, statusHistoryService)
+	proto_mail_provider.RegisterMailProviderServiceServer(server, mailProviderService)
+	proto_mail_history.RegisterMailHistoryServiceServer(server, mailHistoryService)
 
 	if !env.IsProduction() {
 		reflection.Register(server)
@@ -45,26 +61,28 @@ func NewGRPCServer(
 	return &GRPCServer{
 		server: server,
 		port:   env.PORT_GRPC,
+		log:    log,
 	}
 }
 
 func (s *GRPCServer) Start(ctx context.Context) error {
 	lis, err := net.Listen("tcp", fmt.Sprintf(":%s", s.port))
 	if err != nil {
-		return fmt.Errorf("failed to listen: %v", err)
+		s.log.Error(fmt.Sprintf("failed to listen: %v", err))
+		return err
 	}
 
-	fmt.Printf("gRPC server starting on port %s\n", s.port)
+	s.log.Info(fmt.Sprintf("gRPC server starting on port %s", s.port))
 
 	go func() {
 		if err := s.server.Serve(lis); err != nil {
-			fmt.Printf("failed to serve: %v", err)
+			s.log.Error(fmt.Sprintf("failed to serve: %v", err))
 		}
 	}()
 
 	<-ctx.Done()
 
-	fmt.Println("Shutting down gRPC server...")
+	s.log.Info("Shutting down gRPC server...")
 	s.server.GracefulStop()
 
 	return nil

@@ -1,7 +1,8 @@
-package grpcservice
+package grpcmailprovider
 
 import (
 	"context"
+	"mail-service/domain/common"
 	"mail-service/domain/entity"
 	proto "mail-service/proto/gen/mail_provider/v1"
 	"time"
@@ -22,6 +23,7 @@ func (mp *mailProviderService) CreateMailProvider(ctx context.Context, req *prot
 		TypeId:     req.TypeId,
 		CreatedBy:  req.CreatedBy,
 		CreatedAt:  time.Now(),
+		Status:     common.StatusActive,
 	}
 
 	if req.CreatedAt != "" {

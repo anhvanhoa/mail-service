@@ -1,4 +1,4 @@
-package grpcservice
+package grpcmailstatus
 
 import (
 	"mail-service/bootstrap"

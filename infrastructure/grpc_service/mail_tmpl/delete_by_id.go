@@ -1,4 +1,4 @@
-package grpcservice
+package grpcmailtmpl
 
 import (
 	"context"

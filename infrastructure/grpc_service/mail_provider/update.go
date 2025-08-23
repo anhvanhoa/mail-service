@@ -1,7 +1,8 @@
-package grpcservice
+package grpcmailprovider
 
 import (
 	"context"
+	"mail-service/domain/common"
 	"mail-service/domain/entity"
 	proto "mail-service/proto/gen/mail_provider/v1"
 	"time"
@@ -11,6 +12,7 @@ import (
 )
 
 func (mp *mailProviderService) UpdateMailProvider(ctx context.Context, req *proto.UpdateMailProviderRequest) (*proto.UpdateMailProviderResponse, error) {
+	now := time.Now()
 	mailProvider := entity.MailProvider{
 		Email:      req.Email,
 		Password:   req.Password,
@@ -20,7 +22,8 @@ func (mp *mailProviderService) UpdateMailProvider(ctx context.Context, req *prot
 		Encryption: req.Encryption,
 		Name:       req.Name,
 		TypeId:     req.TypeId,
-		UpdatedAt:  time.Now(),
+		UpdatedAt:  &now,
+		Status:     common.Status(req.Status),
 	}
 
 	err := mp.updateMailProviderUsecase.Execute(ctx, &mailProvider)

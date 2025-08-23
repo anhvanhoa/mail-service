@@ -53,6 +53,7 @@ message UpdateMailProviderRequest {
   string encryption = 6;
   string name = 7;
   string type_id = 8;
+  string status = 9;
 }
 
 message UpdateMailProviderResponse {

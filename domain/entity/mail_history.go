@@ -8,7 +8,6 @@ type MailHistory struct {
 	TemplateId    string         `pg:"template_id"`
 	Subject       string         `pg:"subject"`
 	Body          string         `pg:"body"`
-	To            string         `pg:"to"`
 	Tos           []string       `pg:"tos"`
 	Data          map[string]any `pg:"data"`
 	EmailProvider string         `pg:"email_provider"`
