@@ -1,0 +1,76 @@
+syntax = "proto3";
+
+package exam.v1;
+
+option go_package = "exam/v1;proto";
+
+service MailStatusService {
+  rpc CreateMailStatus(CreateMailStatusRequest) returns (CreateMailStatusResponse);
+  rpc UpdateMailStatus(UpdateMailStatusRequest) returns (UpdateMailStatusResponse);
+  rpc DeleteMailStatus(DeleteMailStatusRequest) returns (DeleteMailStatusResponse);
+  rpc GetMailStatus(GetMailStatusRequest) returns (GetMailStatusResponse);
+  rpc GetAllMailStatus(GetAllMailStatusRequest) returns (GetAllMailStatusResponse);
+}
+
+message CreateMailStatusRequest {
+  string status = 1;
+  string name = 2;
+  string created_at = 3;
+}
+
+message MailStatus {
+  string status = 1;
+  string name = 2;
+  string created_at = 3;
+}
+
+message CreateMailStatusResponse {
+  string message = 1;
+  MailStatus mail_status = 2;
+}
+
+message UpdateMailStatusRequest {
+  string status = 1;
+  string name = 2;
+}
+
+message UpdateMailStatusResponse {
+  string message = 1;
+  MailStatus mail_status = 2;
+}
+
+message DeleteMailStatusRequest {
+  string status = 1;
+}
+
+message DeleteMailStatusResponse {
+  string message = 1;
+}
+
+message GetMailStatusRequest {
+  string status = 1;
+}
+
+message GetMailStatusResponse {
+  string message = 1;
+  MailStatus mail_status = 2;
+}
+
+message GetAllMailStatusRequest {
+  string page = 1;
+  string limit = 2;
+  string search = 3;
+  string sort = 4;
+  string order = 5;
+  string status = 6;
+  string name = 7;
+  string created_at = 8;
+}
+
+message GetAllMailStatusResponse {
+  string message = 1;
+  int32 total = 2;
+  int32 page = 3;
+  int32 limit = 4;
+  repeated MailStatus mail_statuses = 5;
+}

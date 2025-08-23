@@ -1,0 +1,108 @@
+syntax = "proto3";
+
+package exam.v1;
+
+option go_package = "exam/v1;proto";
+
+service StatusHistoryService {
+  rpc CreateStatusHistory(CreateStatusHistoryRequest) returns (CreateStatusHistoryResponse);
+  rpc UpdateStatusHistory(UpdateStatusHistoryRequest) returns (UpdateStatusHistoryResponse);
+  rpc DeleteStatusHistory(DeleteStatusHistoryRequest) returns (DeleteStatusHistoryResponse);
+  rpc GetStatusHistory(GetStatusHistoryRequest) returns (GetStatusHistoryResponse);
+  rpc GetAllStatusHistory(GetAllStatusHistoryRequest) returns (GetAllStatusHistoryResponse);
+  rpc GetStatusHistoryByMailHistoryId(GetStatusHistoryByMailHistoryIdRequest) returns (GetStatusHistoryByMailHistoryIdResponse);
+  rpc GetLatestStatusHistoryByMailHistoryId(GetLatestStatusHistoryByMailHistoryIdRequest) returns (GetLatestStatusHistoryByMailHistoryIdResponse);
+}
+
+message CreateStatusHistoryRequest {
+  string status = 1;
+  string mail_history_id = 2;
+  string message = 3;
+  string created_at = 4;
+}
+
+message StatusHistory {
+  string status = 1;
+  string mail_history_id = 2;
+  string message = 3;
+  string created_at = 4;
+}
+
+message CreateStatusHistoryResponse {
+  string message = 1;
+  StatusHistory status_history = 2;
+}
+
+message UpdateStatusHistoryRequest {
+  string status = 1;
+  string mail_history_id = 2;
+  string message = 3;
+}
+
+message UpdateStatusHistoryResponse {
+  string message = 1;
+  StatusHistory status_history = 2;
+}
+
+message DeleteStatusHistoryRequest {
+  string status = 1;
+  string mail_history_id = 2;
+}
+
+message DeleteStatusHistoryResponse {
+  string message = 1;
+}
+
+message GetStatusHistoryRequest {
+  string status = 1;
+  string mail_history_id = 2;
+}
+
+message GetStatusHistoryResponse {
+  string message = 1;
+  StatusHistory status_history = 2;
+}
+
+message GetAllStatusHistoryRequest {
+  string page = 1;
+  string limit = 2;
+  string search = 3;
+  string sort = 4;
+  string order = 5;
+  string status = 6;
+  string mail_history_id = 7;
+  string created_at = 8;
+}
+
+message GetAllStatusHistoryResponse {
+  string message = 1;
+  int32 total = 2;
+  int32 page = 3;
+  int32 limit = 4;
+  repeated StatusHistory status_histories = 5;
+}
+
+message GetStatusHistoryByMailHistoryIdRequest {
+  string mail_history_id = 1;
+  string page = 2;
+  string limit = 3;
+  string sort = 4;
+  string order = 5;
+}
+
+message GetStatusHistoryByMailHistoryIdResponse {
+  string message = 1;
+  int32 total = 2;
+  int32 page = 3;
+  int32 limit = 4;
+  repeated StatusHistory status_histories = 5;
+}
+
+message GetLatestStatusHistoryByMailHistoryIdRequest {
+  string mail_history_id = 1;
+}
+
+message GetLatestStatusHistoryByMailHistoryIdResponse {
+  string message = 1;
+  StatusHistory status_history = 2;
+}

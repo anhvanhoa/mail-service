@@ -1,0 +1,79 @@
+syntax = "proto3";
+
+package exam.v1;
+
+option go_package = "exam/v1;proto";
+
+service TypeMailService {
+  rpc CreateTypeMail(CreateTypeMailRequest) returns (CreateTypeMailResponse);
+  rpc UpdateTypeMail(UpdateTypeMailRequest) returns (UpdateTypeMailResponse);
+  rpc DeleteTypeMail(DeleteTypeMailRequest) returns (DeleteTypeMailResponse);
+  rpc GetTypeMail(GetTypeMailRequest) returns (GetTypeMailResponse);
+  rpc GetAllTypeMail(GetAllTypeMailRequest) returns (GetAllTypeMailResponse);
+}
+
+message CreateTypeMailRequest {
+  string name = 1;
+  string created_by = 2;
+  string created_at = 3;
+}
+
+message TypeMail {
+  string id = 1;
+  string name = 2;
+  string created_by = 3;
+  string created_at = 4;
+  string updated_at = 5;
+}
+
+message CreateTypeMailResponse {
+  string message = 1;
+  TypeMail type_mail = 2;
+}
+
+message UpdateTypeMailRequest {
+  string id = 1;
+  string name = 2;
+}
+
+message UpdateTypeMailResponse {
+  string message = 1;
+  TypeMail type_mail = 2;
+}
+
+message DeleteTypeMailRequest {
+  string id = 1;
+}
+
+message DeleteTypeMailResponse {
+  string message = 1;
+}
+
+message GetTypeMailRequest {
+  string id = 1;
+}
+
+message GetTypeMailResponse {
+  string message = 1;
+  TypeMail type_mail = 2;
+}
+
+message GetAllTypeMailRequest {
+  string page = 1;
+  string limit = 2;
+  string search = 3;
+  string sort = 4;
+  string order = 5;
+  string name = 6;
+  string created_by = 7;
+  string created_at = 8;
+  string updated_at = 9;
+}
+
+message GetAllTypeMailResponse {
+  string message = 1;
+  int32 total = 2;
+  int32 page = 3;
+  int32 limit = 4;
+  repeated TypeMail type_mails = 5;
+}

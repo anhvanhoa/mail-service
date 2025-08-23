@@ -1,0 +1,99 @@
+syntax = "proto3";
+
+package exam.v1;
+
+option go_package = "exam/v1;proto";
+
+service MailProviderService {
+  rpc CreateMailProvider(CreateMailProviderRequest) returns (CreateMailProviderResponse);
+  rpc UpdateMailProvider(UpdateMailProviderRequest) returns (UpdateMailProviderResponse);
+  rpc DeleteMailProvider(DeleteMailProviderRequest) returns (DeleteMailProviderResponse);
+  rpc GetMailProvider(GetMailProviderRequest) returns (GetMailProviderResponse);
+  rpc GetAllMailProvider(GetAllMailProviderRequest) returns (GetAllMailProviderResponse);
+}
+
+message CreateMailProviderRequest {
+  string email = 1;
+  string password = 2;
+  string user_name = 3;
+  int32 port = 4;
+  string host = 5;
+  string encryption = 6;
+  string name = 7;
+  string type_id = 8;
+  string created_by = 9;
+  string created_at = 10;
+}
+
+message MailProvider {
+  string email = 1;
+  string password = 2;
+  string user_name = 3;
+  int32 port = 4;
+  string host = 5;
+  string encryption = 6;
+  string name = 7;
+  string type_id = 8;
+  string created_by = 9;
+  string created_at = 10;
+  string updated_at = 11;
+}
+
+message CreateMailProviderResponse {
+  string message = 1;
+  MailProvider mail_provider = 2;
+}
+
+message UpdateMailProviderRequest {
+  string email = 1;
+  string password = 2;
+  string user_name = 3;
+  int32 port = 4;
+  string host = 5;
+  string encryption = 6;
+  string name = 7;
+  string type_id = 8;
+}
+
+message UpdateMailProviderResponse {
+  string message = 1;
+  MailProvider mail_provider = 2;
+}
+
+message DeleteMailProviderRequest {
+  string email = 1;
+}
+
+message DeleteMailProviderResponse {
+  string message = 1;
+}
+
+message GetMailProviderRequest {
+  string email = 1;
+}
+
+message GetMailProviderResponse {
+  string message = 1;
+  MailProvider mail_provider = 2;
+}
+
+message GetAllMailProviderRequest {
+  string page = 1;
+  string limit = 2;
+  string search = 3;
+  string sort = 4;
+  string order = 5;
+  string name = 6;
+  string type_id = 7;
+  string created_by = 8;
+  string created_at = 9;
+  string updated_at = 10;
+}
+
+message GetAllMailProviderResponse {
+  string message = 1;
+  int32 total = 2;
+  int32 page = 3;
+  int32 limit = 4;
+  repeated MailProvider mail_providers = 5;
+}
