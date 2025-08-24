@@ -4,13 +4,14 @@ import (
 	"mail-service/bootstrap"
 	usecase "mail-service/domain/usecase/mail_history"
 	"mail-service/infrastructure/repo"
-	proto "mail-service/proto/gen/mail_history/v1"
+
+	proto_mail_history "github.com/anhvanhoa/sf-proto/gen/mail_history/v1"
 
 	"github.com/go-pg/pg/v10"
 )
 
 type mailHistoryService struct {
-	proto.UnsafeMailHistoryServiceServer
+	proto_mail_history.UnsafeMailHistoryServiceServer
 	createMailHistoryUsecase usecase.CreateMailHistoryUsecase
 	updateMailHistoryUsecase usecase.UpdateByIdMailHistoryUsecase
 	deleteMailHistoryUsecase usecase.DeleteByIdMailHistoryUsecase
@@ -18,7 +19,7 @@ type mailHistoryService struct {
 	getAllMailHistoryUsecase usecase.GetAllMailHistoryUsecase
 }
 
-func NewMailHistoryService(db *pg.DB, env *bootstrap.Env) proto.MailHistoryServiceServer {
+func NewMailHistoryService(db *pg.DB, env *bootstrap.Env) proto_mail_history.MailHistoryServiceServer {
 	mailHistoryRepository := repo.NewMailHistoryRepository(db)
 	return &mailHistoryService{
 		createMailHistoryUsecase: usecase.NewCreateMailHistoryUsecase(mailHistoryRepository),

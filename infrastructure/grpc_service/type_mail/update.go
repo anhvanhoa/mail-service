@@ -3,14 +3,15 @@ package grpctypemail
 import (
 	"context"
 	"mail-service/domain/entity"
-	proto "mail-service/proto/gen/type_mail/v1"
 	"time"
+
+	proto_type_mail "github.com/anhvanhoa/sf-proto/gen/type_mail/v1"
 
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
 
-func (tm *typeMailService) UpdateTypeMail(ctx context.Context, req *proto.UpdateTypeMailRequest) (*proto.UpdateTypeMailResponse, error) {
+func (tm *typeMailService) UpdateTypeMail(ctx context.Context, req *proto_type_mail.UpdateTypeMailRequest) (*proto_type_mail.UpdateTypeMailResponse, error) {
 	now := time.Now()
 	typeMail := entity.TypeMail{
 		ID:        req.Id,
@@ -28,9 +29,9 @@ func (tm *typeMailService) UpdateTypeMail(ctx context.Context, req *proto.Update
 		updatedAt = typeMail.UpdatedAt.Format(time.RFC3339)
 	}
 
-	return &proto.UpdateTypeMailResponse{
+	return &proto_type_mail.UpdateTypeMailResponse{
 		Message: "Type mail updated successfully",
-		TypeMail: &proto.TypeMail{
+		TypeMail: &proto_type_mail.TypeMail{
 			Id:        typeMail.ID,
 			Name:      typeMail.Name,
 			CreatedBy: typeMail.CreatedBy,

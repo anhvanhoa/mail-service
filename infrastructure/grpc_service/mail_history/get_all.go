@@ -2,21 +2,22 @@ package grpcmailhistory
 
 import (
 	"context"
-	proto "mail-service/proto/gen/mail_history/v1"
 	"time"
+
+	proto_mail_history "github.com/anhvanhoa/sf-proto/gen/mail_history/v1"
 
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
 
-func (mh *mailHistoryService) GetAllMailHistory(ctx context.Context, req *proto.GetAllMailHistoryRequest) (*proto.GetAllMailHistoryResponse, error) {
+func (mh *mailHistoryService) GetAllMailHistory(ctx context.Context, req *proto_mail_history.GetAllMailHistoryRequest) (*proto_mail_history.GetAllMailHistoryResponse, error) {
 	result, err := mh.getAllMailHistoryUsecase.Execute(ctx)
 	if err != nil {
 		return nil, status.Errorf(codes.Internal, "Lỗi lấy danh sách mail history: %v", err)
 	}
 
 	// Convert to proto response
-	var mailHistories []*proto.MailHistory
+	var mailHistories []*proto_mail_history.MailHistory
 	for _, mh := range result {
 		updatedAt := ""
 		if mh.UpdatedAt != nil {
@@ -31,7 +32,7 @@ func (mh *mailHistoryService) GetAllMailHistory(ctx context.Context, req *proto.
 			}
 		}
 
-		mailHistories = append(mailHistories, &proto.MailHistory{
+		mailHistories = append(mailHistories, &proto_mail_history.MailHistory{
 			Id:            mh.ID,
 			TemplateId:    mh.TemplateId,
 			Subject:       mh.Subject,
@@ -45,7 +46,7 @@ func (mh *mailHistoryService) GetAllMailHistory(ctx context.Context, req *proto.
 		})
 	}
 
-	return &proto.GetAllMailHistoryResponse{
+	return &proto_mail_history.GetAllMailHistoryResponse{
 		Message:       "Mail histories retrieved successfully",
 		Total:         int32(len(mailHistories)),
 		Page:          1,

@@ -2,23 +2,24 @@ package grpcmailprovider
 
 import (
 	"context"
-	proto "mail-service/proto/gen/mail_provider/v1"
 	"time"
+
+	proto_mail_provider "github.com/anhvanhoa/sf-proto/gen/mail_provider/v1"
 
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
 
-func (mp *mailProviderService) GetAllMailProvider(ctx context.Context, req *proto.GetAllMailProviderRequest) (*proto.GetAllMailProviderResponse, error) {
+func (mp *mailProviderService) GetAllMailProvider(ctx context.Context, req *proto_mail_provider.GetAllMailProviderRequest) (*proto_mail_provider.GetAllMailProviderResponse, error) {
 	result, err := mp.getAllMailProviderUsecase.Execute(ctx)
 	if err != nil {
 		return nil, status.Errorf(codes.Internal, "Lỗi lấy danh sách mail provider: %v", err)
 	}
 
 	// Convert to proto response
-	var mailProviders []*proto.MailProvider
+	var mailProviders []*proto_mail_provider.MailProvider
 	for _, mp := range result {
-		mailProviders = append(mailProviders, &proto.MailProvider{
+		mailProviders = append(mailProviders, &proto_mail_provider.MailProvider{
 			Email:      mp.Email,
 			Password:   mp.Password,
 			UserName:   mp.UserName,
@@ -33,7 +34,7 @@ func (mp *mailProviderService) GetAllMailProvider(ctx context.Context, req *prot
 		})
 	}
 
-	return &proto.GetAllMailProviderResponse{
+	return &proto_mail_provider.GetAllMailProviderResponse{
 		Message:       "Mail providers retrieved successfully",
 		Total:         int32(len(mailProviders)),
 		Page:          1,

@@ -4,14 +4,15 @@ import (
 	"context"
 	"mail-service/domain/common"
 	"mail-service/domain/entity"
-	proto "mail-service/proto/gen/mail_provider/v1"
 	"time"
+
+	proto_mail_provider "github.com/anhvanhoa/sf-proto/gen/mail_provider/v1"
 
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
 
-func (mp *mailProviderService) UpdateMailProvider(ctx context.Context, req *proto.UpdateMailProviderRequest) (*proto.UpdateMailProviderResponse, error) {
+func (mp *mailProviderService) UpdateMailProvider(ctx context.Context, req *proto_mail_provider.UpdateMailProviderRequest) (*proto_mail_provider.UpdateMailProviderResponse, error) {
 	now := time.Now()
 	mailProvider := entity.MailProvider{
 		Email:      req.Email,
@@ -31,9 +32,9 @@ func (mp *mailProviderService) UpdateMailProvider(ctx context.Context, req *prot
 		return nil, status.Errorf(codes.Internal, "Lỗi cập nhật mail provider: %v", err)
 	}
 
-	return &proto.UpdateMailProviderResponse{
+	return &proto_mail_provider.UpdateMailProviderResponse{
 		Message: "Mail provider updated successfully",
-		MailProvider: &proto.MailProvider{
+		MailProvider: &proto_mail_provider.MailProvider{
 			Email:      mailProvider.Email,
 			Password:   mailProvider.Password,
 			UserName:   mailProvider.UserName,

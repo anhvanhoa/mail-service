@@ -4,11 +4,12 @@ import (
 	"context"
 	"mail-service/domain/common"
 	"mail-service/domain/entity"
-	proto "mail-service/proto/gen/mail_tmpl/v1"
 	"time"
+
+	proto_mail_tmpl "github.com/anhvanhoa/sf-proto/gen/mail_tmpl/v1"
 )
 
-func (mtmpl *mailTmplService) UpdateMailTmpl(ctx context.Context, req *proto.UpdateMailTmplRequest) (*proto.UpdateMailTmplResponse, error) {
+func (mtmpl *mailTmplService) UpdateMailTmpl(ctx context.Context, req *proto_mail_tmpl.UpdateMailTmplRequest) (*proto_mail_tmpl.UpdateMailTmplResponse, error) {
 	mailTmpl := entity.MailTemplate{
 		Subject:       req.Subject,
 		Body:          req.Body,
@@ -18,7 +19,7 @@ func (mtmpl *mailTmplService) UpdateMailTmpl(ctx context.Context, req *proto.Upd
 	}
 	mtmpl.updateMailTmplUsecase.Execute(ctx, &mailTmpl)
 
-	return &proto.UpdateMailTmplResponse{
+	return &proto_mail_tmpl.UpdateMailTmplResponse{
 		Message: "Mail template updated successfully",
 	}, nil
 }

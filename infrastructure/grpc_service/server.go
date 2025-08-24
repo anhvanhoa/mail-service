@@ -7,12 +7,13 @@ import (
 
 	"mail-service/bootstrap"
 	"mail-service/domain/service/logger"
-	proto_mail_history "mail-service/proto/gen/mail_history/v1"
-	proto_mail_provider "mail-service/proto/gen/mail_provider/v1"
-	proto_mail_status "mail-service/proto/gen/mail_status/v1"
-	proto_mail_tmpl "mail-service/proto/gen/mail_tmpl/v1"
-	proto_status_history "mail-service/proto/gen/status_history/v1"
-	proto_type_mail "mail-service/proto/gen/type_mail/v1"
+
+	proto_mail_history "github.com/anhvanhoa/sf-proto/gen/mail_history/v1"
+	proto_mail_provider "github.com/anhvanhoa/sf-proto/gen/mail_provider/v1"
+	proto_mail_status "github.com/anhvanhoa/sf-proto/gen/mail_status/v1"
+	proto_mail_tmpl "github.com/anhvanhoa/sf-proto/gen/mail_tmpl/v1"
+	proto_status_history "github.com/anhvanhoa/sf-proto/gen/status_history/v1"
+	proto_type_mail "github.com/anhvanhoa/sf-proto/gen/type_mail/v1"
 
 	"buf.build/go/protovalidate"
 	protovalidate_middleware "github.com/grpc-ecosystem/go-grpc-middleware/v2/interceptors/protovalidate"

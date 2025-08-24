@@ -2,19 +2,20 @@ package grpcmailtmpl
 
 import (
 	"context"
-	proto "mail-service/proto/gen/mail_tmpl/v1"
 	"time"
+
+	proto_mail_tmpl "github.com/anhvanhoa/sf-proto/gen/mail_tmpl/v1"
 )
 
-func (mtmpl *mailTmplService) GetAllMailTmpl(ctx context.Context, req *proto.GetAllMailTmplRequest) (*proto.GetAllMailTmplResponse, error) {
+func (mtmpl *mailTmplService) GetAllMailTmpl(ctx context.Context, req *proto_mail_tmpl.GetAllMailTmplRequest) (*proto_mail_tmpl.GetAllMailTmplResponse, error) {
 	mailTmpls, err := mtmpl.getAllMailTmplUsecase.Execute(ctx)
 	if err != nil {
 		return nil, err
 	}
 
-	var mailTmplsProto []*proto.MailTmpl
+	var mailTmplsProto []*proto_mail_tmpl.MailTmpl
 	for _, mailTmpl := range mailTmpls {
-		mailTmplsProto = append(mailTmplsProto, &proto.MailTmpl{
+		mailTmplsProto = append(mailTmplsProto, &proto_mail_tmpl.MailTmpl{
 			Id:        mailTmpl.ID,
 			Subject:   mailTmpl.Subject,
 			Body:      mailTmpl.Body,
@@ -22,7 +23,7 @@ func (mtmpl *mailTmplService) GetAllMailTmpl(ctx context.Context, req *proto.Get
 			CreatedAt: mailTmpl.CreatedAt.Format(time.RFC3339),
 		})
 	}
-	return &proto.GetAllMailTmplResponse{
+	return &proto_mail_tmpl.GetAllMailTmplResponse{
 		Message:   "Mail templates fetched successfully",
 		Total:     int32(len(mailTmpls)),
 		MailTmpls: mailTmplsProto,

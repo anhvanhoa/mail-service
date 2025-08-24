@@ -4,13 +4,14 @@ import (
 	"mail-service/bootstrap"
 	usecase "mail-service/domain/usecase/status_history"
 	"mail-service/infrastructure/repo"
-	proto "mail-service/proto/gen/status_history/v1"
+
+	proto_status_history "github.com/anhvanhoa/sf-proto/gen/status_history/v1"
 
 	"github.com/go-pg/pg/v10"
 )
 
 type statusHistoryService struct {
-	proto.UnsafeStatusHistoryServiceServer
+	proto_status_history.UnsafeStatusHistoryServiceServer
 	createStatusHistoryUsecase                   usecase.CreateStatusHistoryUsecase
 	updateStatusHistoryUsecase                   usecase.UpdateStatusHistoryUsecase
 	deleteStatusHistoryUsecase                   usecase.DeleteStatusHistoryUsecase
@@ -19,7 +20,7 @@ type statusHistoryService struct {
 	getLatestStatusHistoryByMailHistoryIdUsecase usecase.GetLatestByMailHistoryIdStatusHistoryUsecase
 }
 
-func NewStatusHistoryService(db *pg.DB, env *bootstrap.Env) proto.StatusHistoryServiceServer {
+func NewStatusHistoryService(db *pg.DB, env *bootstrap.Env) proto_status_history.StatusHistoryServiceServer {
 	statusHistoryRepository := repo.NewStatusHistoryRepository(db)
 	return &statusHistoryService{
 		createStatusHistoryUsecase:                   usecase.NewCreateStatusHistoryUsecase(statusHistoryRepository),

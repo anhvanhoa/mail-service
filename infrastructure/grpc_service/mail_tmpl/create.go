@@ -4,14 +4,15 @@ import (
 	"context"
 	"mail-service/domain/common"
 	"mail-service/domain/entity"
-	proto "mail-service/proto/gen/mail_tmpl/v1"
 	"time"
+
+	proto_mail_tmpl "github.com/anhvanhoa/sf-proto/gen/mail_tmpl/v1"
 
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
 
-func (mtmpl *mailTmplService) CreateMailTmpl(ctx context.Context, req *proto.CreateMailTmplRequest) (*proto.CreateMailTmplResponse, error) {
+func (mtmpl *mailTmplService) CreateMailTmpl(ctx context.Context, req *proto_mail_tmpl.CreateMailTmplRequest) (*proto_mail_tmpl.CreateMailTmplResponse, error) {
 	mailTmpl := entity.MailTemplate{
 		Subject:       req.Subject,
 		Body:          req.Body,
@@ -30,9 +31,9 @@ func (mtmpl *mailTmplService) CreateMailTmpl(ctx context.Context, req *proto.Cre
 	}
 
 	mtmpl.createMailTmplUsecase.Execute(ctx, &mailTmpl)
-	return &proto.CreateMailTmplResponse{
+	return &proto_mail_tmpl.CreateMailTmplResponse{
 		Message: "Mail template created successfully",
-		MailTmpl: &proto.MailTmpl{
+		MailTmpl: &proto_mail_tmpl.MailTmpl{
 			Id:        mailTmpl.ID,
 			Subject:   mailTmpl.Subject,
 			Body:      mailTmpl.Body,

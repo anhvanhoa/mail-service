@@ -3,14 +3,15 @@ package grpcmailhistory
 import (
 	"context"
 	"mail-service/domain/entity"
-	proto "mail-service/proto/gen/mail_history/v1"
 	"time"
+
+	proto_mail_history "github.com/anhvanhoa/sf-proto/gen/mail_history/v1"
 
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
 
-func (mh *mailHistoryService) CreateMailHistory(ctx context.Context, req *proto.CreateMailHistoryRequest) (*proto.CreateMailHistoryResponse, error) {
+func (mh *mailHistoryService) CreateMailHistory(ctx context.Context, req *proto_mail_history.CreateMailHistoryRequest) (*proto_mail_history.CreateMailHistoryResponse, error) {
 	mailHistory := entity.MailHistory{
 		TemplateId:    req.TemplateId,
 		Subject:       req.Subject,
@@ -45,9 +46,9 @@ func (mh *mailHistoryService) CreateMailHistory(ctx context.Context, req *proto.
 		updatedAt = mailHistory.UpdatedAt.Format(time.RFC3339)
 	}
 
-	return &proto.CreateMailHistoryResponse{
+	return &proto_mail_history.CreateMailHistoryResponse{
 		Message: "Mail history created successfully",
-		MailHistory: &proto.MailHistory{
+		MailHistory: &proto_mail_history.MailHistory{
 			Id:            mailHistory.ID,
 			TemplateId:    mailHistory.TemplateId,
 			Subject:       mailHistory.Subject,

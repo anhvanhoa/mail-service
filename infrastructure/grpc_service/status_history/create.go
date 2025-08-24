@@ -3,14 +3,15 @@ package grpcstatushistory
 import (
 	"context"
 	"mail-service/domain/entity"
-	proto "mail-service/proto/gen/status_history/v1"
 	"time"
+
+	proto_status_history "github.com/anhvanhoa/sf-proto/gen/status_history/v1"
 
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
 
-func (sh *statusHistoryService) CreateStatusHistory(ctx context.Context, req *proto.CreateStatusHistoryRequest) (*proto.CreateStatusHistoryResponse, error) {
+func (sh *statusHistoryService) CreateStatusHistory(ctx context.Context, req *proto_status_history.CreateStatusHistoryRequest) (*proto_status_history.CreateStatusHistoryResponse, error) {
 	statusHistory := entity.StatusHistory{
 		Status:        entity.StatusMail(req.Status),
 		MailHistoryId: req.MailHistoryId,
@@ -31,9 +32,9 @@ func (sh *statusHistoryService) CreateStatusHistory(ctx context.Context, req *pr
 		return nil, status.Errorf(codes.Internal, "Lỗi tạo status history: %v", err)
 	}
 
-	return &proto.CreateStatusHistoryResponse{
+	return &proto_status_history.CreateStatusHistoryResponse{
 		Message: "Status history created successfully",
-		StatusHistory: &proto.StatusHistory{
+		StatusHistory: &proto_status_history.StatusHistory{
 			Status:        string(statusHistory.Status),
 			MailHistoryId: statusHistory.MailHistoryId,
 			Message:       statusHistory.Message,

@@ -4,7 +4,8 @@ import (
 	"mail-service/bootstrap"
 	usecase "mail-service/domain/usecase/type_mail"
 	"mail-service/infrastructure/repo"
-	proto "mail-service/proto/gen/type_mail/v1"
+
+	proto "github.com/anhvanhoa/sf-proto/gen/type_mail/v1"
 
 	"github.com/go-pg/pg/v10"
 )

@@ -4,13 +4,14 @@ import (
 	"mail-service/bootstrap"
 	usecase "mail-service/domain/usecase/mail_provider"
 	"mail-service/infrastructure/repo"
-	proto "mail-service/proto/gen/mail_provider/v1"
+
+	proto_mail_provider "github.com/anhvanhoa/sf-proto/gen/mail_provider/v1"
 
 	"github.com/go-pg/pg/v10"
 )
 
 type mailProviderService struct {
-	proto.UnsafeMailProviderServiceServer
+	proto_mail_provider.UnsafeMailProviderServiceServer
 	createMailProviderUsecase usecase.CreateMailProviderUsecase
 	updateMailProviderUsecase usecase.UpdateByEmailMailProviderUsecase
 	deleteMailProviderUsecase usecase.DeleteByEmailMailProviderUsecase
@@ -18,7 +19,7 @@ type mailProviderService struct {
 	getAllMailProviderUsecase usecase.GetAllMailProviderUsecase
 }
 
-func NewMailProviderService(db *pg.DB, env *bootstrap.Env) proto.MailProviderServiceServer {
+func NewMailProviderService(db *pg.DB, env *bootstrap.Env) proto_mail_provider.MailProviderServiceServer {
 	mailProviderRepository := repo.NewMailProviderRepository(db)
 	return &mailProviderService{
 		createMailProviderUsecase: usecase.NewCreateMailProviderUsecase(mailProviderRepository),

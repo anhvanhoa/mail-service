@@ -2,22 +2,23 @@ package grpcstatushistory
 
 import (
 	"context"
-	proto "mail-service/proto/gen/status_history/v1"
+
+	proto_status_history "github.com/anhvanhoa/sf-proto/gen/status_history/v1"
 
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
 
-func (sh *statusHistoryService) GetAllStatusHistory(ctx context.Context, req *proto.GetAllStatusHistoryRequest) (*proto.GetAllStatusHistoryResponse, error) {
+func (sh *statusHistoryService) GetAllStatusHistory(ctx context.Context, req *proto_status_history.GetAllStatusHistoryRequest) (*proto_status_history.GetAllStatusHistoryResponse, error) {
 	result, err := sh.getAllStatusHistoryUsecase.Execute(ctx)
 	if err != nil {
 		return nil, status.Errorf(codes.Internal, "Lỗi lấy danh sách status history: %v", err)
 	}
 
 	// Convert to proto response
-	var statusHistories []*proto.StatusHistory
+	var statusHistories []*proto_status_history.StatusHistory
 	for _, sh := range result {
-		statusHistories = append(statusHistories, &proto.StatusHistory{
+		statusHistories = append(statusHistories, &proto_status_history.StatusHistory{
 			Status:        string(sh.Status),
 			MailHistoryId: sh.MailHistoryId,
 			Message:       sh.Message,
@@ -25,7 +26,7 @@ func (sh *statusHistoryService) GetAllStatusHistory(ctx context.Context, req *pr
 		})
 	}
 
-	return &proto.GetAllStatusHistoryResponse{
+	return &proto_status_history.GetAllStatusHistoryResponse{
 		Message:         "Status histories retrieved successfully",
 		Total:           int32(len(statusHistories)),
 		Page:            1,

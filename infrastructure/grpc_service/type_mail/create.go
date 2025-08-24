@@ -3,14 +3,15 @@ package grpctypemail
 import (
 	"context"
 	"mail-service/domain/entity"
-	proto "mail-service/proto/gen/type_mail/v1"
 	"time"
+
+	proto_type_mail "github.com/anhvanhoa/sf-proto/gen/type_mail/v1"
 
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
 
-func (tm *typeMailService) CreateTypeMail(ctx context.Context, req *proto.CreateTypeMailRequest) (*proto.CreateTypeMailResponse, error) {
+func (tm *typeMailService) CreateTypeMail(ctx context.Context, req *proto_type_mail.CreateTypeMailRequest) (*proto_type_mail.CreateTypeMailResponse, error) {
 	typeMail := entity.TypeMail{
 		Name:      req.Name,
 		CreatedBy: req.CreatedBy,
@@ -30,9 +31,9 @@ func (tm *typeMailService) CreateTypeMail(ctx context.Context, req *proto.Create
 		return nil, status.Errorf(codes.Internal, "Lỗi tạo type mail: %v", err)
 	}
 
-	return &proto.CreateTypeMailResponse{
+	return &proto_type_mail.CreateTypeMailResponse{
 		Message: "Type mail created successfully",
-		TypeMail: &proto.TypeMail{
+		TypeMail: &proto_type_mail.TypeMail{
 			Id:        typeMail.ID,
 			Name:      typeMail.Name,
 			CreatedBy: typeMail.CreatedBy,

@@ -4,14 +4,15 @@ import (
 	"context"
 	"mail-service/domain/common"
 	"mail-service/domain/entity"
-	proto "mail-service/proto/gen/mail_provider/v1"
 	"time"
+
+	proto_mail_provider "github.com/anhvanhoa/sf-proto/gen/mail_provider/v1"
 
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
 
-func (mp *mailProviderService) CreateMailProvider(ctx context.Context, req *proto.CreateMailProviderRequest) (*proto.CreateMailProviderResponse, error) {
+func (mp *mailProviderService) CreateMailProvider(ctx context.Context, req *proto_mail_provider.CreateMailProviderRequest) (*proto_mail_provider.CreateMailProviderResponse, error) {
 	mailProvider := entity.MailProvider{
 		Email:      req.Email,
 		Password:   req.Password,
@@ -39,9 +40,9 @@ func (mp *mailProviderService) CreateMailProvider(ctx context.Context, req *prot
 		return nil, status.Errorf(codes.Internal, "Lỗi tạo mail provider: %v", err)
 	}
 
-	return &proto.CreateMailProviderResponse{
+	return &proto_mail_provider.CreateMailProviderResponse{
 		Message: "Mail provider created successfully",
-		MailProvider: &proto.MailProvider{
+		MailProvider: &proto_mail_provider.MailProvider{
 			Email:      mailProvider.Email,
 			Password:   mailProvider.Password,
 			UserName:   mailProvider.UserName,

@@ -4,13 +4,14 @@ import (
 	"mail-service/bootstrap"
 	usecase "mail-service/domain/usecase/mail_status"
 	"mail-service/infrastructure/repo"
-	proto "mail-service/proto/gen/mail_status/v1"
+
+	proto_mail_status "github.com/anhvanhoa/sf-proto/gen/mail_status/v1"
 
 	"github.com/go-pg/pg/v10"
 )
 
 type mailStatusService struct {
-	proto.UnsafeMailStatusServiceServer
+	proto_mail_status.UnsafeMailStatusServiceServer
 	createMailStatusUsecase usecase.CreateMailStatusUsecase
 	updateMailStatusUsecase usecase.UpdateByStatusMailStatusUsecase
 	deleteMailStatusUsecase usecase.DeleteByStatusMailStatusUsecase
@@ -18,7 +19,7 @@ type mailStatusService struct {
 	getAllMailStatusUsecase usecase.GetAllMailStatusUsecase
 }
 
-func NewMailStatusService(db *pg.DB, env *bootstrap.Env) proto.MailStatusServiceServer {
+func NewMailStatusService(db *pg.DB, env *bootstrap.Env) proto_mail_status.MailStatusServiceServer {
 	mailStatusRepository := repo.NewMailStatusRepository(db)
 	return &mailStatusService{
 		createMailStatusUsecase: usecase.NewCreateMailStatusUsecase(mailStatusRepository),

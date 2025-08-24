@@ -2,14 +2,15 @@ package grpcmailhistory
 
 import (
 	"context"
-	proto "mail-service/proto/gen/mail_history/v1"
 	"time"
+
+	proto_mail_history "github.com/anhvanhoa/sf-proto/gen/mail_history/v1"
 
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
 
-func (mh *mailHistoryService) GetMailHistory(ctx context.Context, req *proto.GetMailHistoryRequest) (*proto.GetMailHistoryResponse, error) {
+func (mh *mailHistoryService) GetMailHistory(ctx context.Context, req *proto_mail_history.GetMailHistoryRequest) (*proto_mail_history.GetMailHistoryResponse, error) {
 	mailHistory, err := mh.getMailHistoryUsecase.Execute(ctx, req.Id)
 	if err != nil {
 		return nil, status.Errorf(codes.NotFound, "Mail history không tồn tại: %v", err)
@@ -28,9 +29,9 @@ func (mh *mailHistoryService) GetMailHistory(ctx context.Context, req *proto.Get
 		}
 	}
 
-	return &proto.GetMailHistoryResponse{
+	return &proto_mail_history.GetMailHistoryResponse{
 		Message: "Mail history retrieved successfully",
-		MailHistory: &proto.MailHistory{
+		MailHistory: &proto_mail_history.MailHistory{
 			Id:            mailHistory.ID,
 			TemplateId:    mailHistory.TemplateId,
 			Subject:       mailHistory.Subject,
