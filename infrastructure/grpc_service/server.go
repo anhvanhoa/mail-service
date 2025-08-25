@@ -56,6 +56,7 @@ func NewGRPCServer(
 	proto_mail_history.RegisterMailHistoryServiceServer(server, mailHistoryService)
 
 	if !env.IsProduction() {
+		log.Info("Registering reflection enabled")
 		reflection.Register(server)
 	}
 
