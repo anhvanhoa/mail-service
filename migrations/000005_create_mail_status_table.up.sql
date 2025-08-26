@@ -10,5 +10,13 @@ CREATE TABLE IF NOT EXISTS mail_status (
     name VARCHAR(255),
     created_by VARCHAR(255) NOT NULL,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP NULL
+    updated_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP
 );
+
+INSERT INTO mail_status (status, name, created_by) VALUES ('pending', 'Pending', 'system');
+INSERT INTO mail_status (status, name, created_by) VALUES ('sent', 'Sent', 'system');
+INSERT INTO mail_status (status, name, created_by) VALUES ('delivered', 'Delivered', 'system');
+INSERT INTO mail_status (status, name, created_by) VALUES ('failed', 'Failed', 'system');
+INSERT INTO mail_status (status, name, created_by) VALUES ('canceled', 'Canceled', 'system');
+INSERT INTO mail_status (status, name, created_by) VALUES ('clicked', 'Clicked', 'system');
+INSERT INTO mail_status (status, name, created_by) VALUES ('opened', 'Opened', 'system');
