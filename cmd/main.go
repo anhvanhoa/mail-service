@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"mail-service/bootstrap"
+	"mail-service/infrastructure/discovery"
 	grpcservice "mail-service/infrastructure/grpc_service"
 	grpcmailhistory "mail-service/infrastructure/grpc_service/mail_history"
 	grpcmailprovider "mail-service/infrastructure/grpc_service/mail_provider"
@@ -22,6 +23,15 @@ func StartGRPCServer() {
 	env := app.Env
 	log := app.Log
 	db := app.DB
+
+	discovery, err := discovery.NewDiscovery(log, env)
+	if err != nil {
+		log.Fatal("Failed to create discovery: " + err.Error())
+	}
+
+	discovery.Register(env.NAME_SERVICE)
+	defer discovery.Close(env.NAME_SERVICE)
+
 	mailHistoryService := grpcmailhistory.NewMailHistoryService(db, env)
 	mailProviderService := grpcmailprovider.NewMailProviderService(db, env)
 	mailTmplService := grpcmailtmpl.NewMailTmplService(db, env)
