@@ -20,15 +20,13 @@ func NewTypeMailRepository(db *pg.DB) repository.TypeMailRepository {
 }
 
 func (r *typeMailRepository) Create(ctx context.Context, typeMail *entity.TypeMail) error {
-	db := getTx(ctx, r.db)
-	_, err := db.Model(typeMail).Insert()
+	_, err := r.db.Model(typeMail).Insert()
 	return err
 }
 
 func (r *typeMailRepository) GetByID(ctx context.Context, id string) (*entity.TypeMail, error) {
-	db := getTx(ctx, r.db)
 	typeMail := &entity.TypeMail{}
-	err := db.Model(typeMail).Where("id = ?", id).Select()
+	err := r.db.Model(typeMail).Where("id = ?", id).Select()
 	if err != nil {
 		return nil, err
 	}
@@ -36,9 +34,8 @@ func (r *typeMailRepository) GetByID(ctx context.Context, id string) (*entity.Ty
 }
 
 func (r *typeMailRepository) GetByName(ctx context.Context, name string) (*entity.TypeMail, error) {
-	db := getTx(ctx, r.db)
 	typeMail := &entity.TypeMail{}
-	err := db.Model(typeMail).Where("name = ?", name).Select()
+	err := r.db.Model(typeMail).Where("name = ?", name).Select()
 	if err != nil {
 		return nil, err
 	}
@@ -46,27 +43,23 @@ func (r *typeMailRepository) GetByName(ctx context.Context, name string) (*entit
 }
 
 func (r *typeMailRepository) GetByCreatedBy(ctx context.Context, createdBy string) ([]*entity.TypeMail, error) {
-	db := getTx(ctx, r.db)
 	var typeMails []*entity.TypeMail
-	err := db.Model(&typeMails).Where("created_by = ?", createdBy).Select()
+	err := r.db.Model(&typeMails).Where("created_by = ?", createdBy).Select()
 	return typeMails, err
 }
 
 func (r *typeMailRepository) GetAll(ctx context.Context) ([]*entity.TypeMail, error) {
-	db := getTx(ctx, r.db)
 	var typeMails []*entity.TypeMail
-	err := db.Model(&typeMails).Select()
+	err := r.db.Model(&typeMails).Select()
 	return typeMails, err
 }
 
 func (r *typeMailRepository) Update(ctx context.Context, typeMail *entity.TypeMail) error {
-	db := getTx(ctx, r.db)
-	_, err := db.Model(typeMail).Where("id = ?", typeMail.ID).Update()
+	_, err := r.db.Model(typeMail).Where("id = ?", typeMail.ID).Update()
 	return err
 }
 
 func (r *typeMailRepository) Delete(ctx context.Context, id string) error {
-	db := getTx(ctx, r.db)
-	_, err := db.Model(&entity.TypeMail{}).Where("id = ?", id).Delete()
+	_, err := r.db.Model(&entity.TypeMail{}).Where("id = ?", id).Delete()
 	return err
 }

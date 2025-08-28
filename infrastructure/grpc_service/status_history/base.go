@@ -1,7 +1,6 @@
 package grpcstatushistory
 
 import (
-	"mail-service/bootstrap"
 	usecase "mail-service/domain/usecase/status_history"
 	"mail-service/infrastructure/repo"
 
@@ -20,7 +19,7 @@ type statusHistoryService struct {
 	getLatestStatusHistoryByMailHistoryIdUsecase usecase.GetLatestByMailHistoryIdStatusHistoryUsecase
 }
 
-func NewStatusHistoryService(db *pg.DB, env *bootstrap.Env) proto_status_history.StatusHistoryServiceServer {
+func NewStatusHistoryService(db *pg.DB) proto_status_history.StatusHistoryServiceServer {
 	statusHistoryRepository := repo.NewStatusHistoryRepository(db)
 	return &statusHistoryService{
 		createStatusHistoryUsecase:                   usecase.NewCreateStatusHistoryUsecase(statusHistoryRepository),

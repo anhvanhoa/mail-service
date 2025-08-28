@@ -1,7 +1,6 @@
 package grpcmailhistory
 
 import (
-	"mail-service/bootstrap"
 	usecase "mail-service/domain/usecase/mail_history"
 	"mail-service/infrastructure/repo"
 
@@ -19,7 +18,7 @@ type mailHistoryService struct {
 	getAllMailHistoryUsecase usecase.GetAllMailHistoryUsecase
 }
 
-func NewMailHistoryService(db *pg.DB, env *bootstrap.Env) proto_mail_history.MailHistoryServiceServer {
+func NewMailHistoryService(db *pg.DB) proto_mail_history.MailHistoryServiceServer {
 	mailHistoryRepository := repo.NewMailHistoryRepository(db)
 	return &mailHistoryService{
 		createMailHistoryUsecase: usecase.NewCreateMailHistoryUsecase(mailHistoryRepository),

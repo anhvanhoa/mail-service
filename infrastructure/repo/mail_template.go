@@ -21,15 +21,13 @@ func NewMailTemplateRepository(db *pg.DB) repository.MailTemplateRepository {
 }
 
 func (r *mailTemplateRepository) Create(ctx context.Context, template *entity.MailTemplate) error {
-	db := getTx(ctx, r.db)
-	_, err := db.Model(template).Insert()
+	_, err := r.db.Model(template).Insert()
 	return err
 }
 
 func (r *mailTemplateRepository) GetByID(ctx context.Context, id string) (*entity.MailTemplate, error) {
-	db := getTx(ctx, r.db)
 	template := &entity.MailTemplate{}
-	err := db.Model(template).Where("id = ?", id).Select()
+	err := r.db.Model(template).Where("id = ?", id).Select()
 	if err != nil {
 		return nil, err
 	}
@@ -37,9 +35,8 @@ func (r *mailTemplateRepository) GetByID(ctx context.Context, id string) (*entit
 }
 
 func (r *mailTemplateRepository) GetBySubject(ctx context.Context, subject string) (*entity.MailTemplate, error) {
-	db := getTx(ctx, r.db)
 	template := &entity.MailTemplate{}
-	err := db.Model(template).Where("subject = ?", subject).Select()
+	err := r.db.Model(template).Where("subject = ?", subject).Select()
 	if err != nil {
 		return nil, err
 	}
@@ -47,40 +44,34 @@ func (r *mailTemplateRepository) GetBySubject(ctx context.Context, subject strin
 }
 
 func (r *mailTemplateRepository) GetAll(ctx context.Context) ([]*entity.MailTemplate, error) {
-	db := getTx(ctx, r.db)
 	var templates []*entity.MailTemplate
-	err := db.Model(&templates).Select()
+	err := r.db.Model(&templates).Select()
 	return templates, err
 }
 
 func (r *mailTemplateRepository) GetByStatus(ctx context.Context, status common.Status) ([]*entity.MailTemplate, error) {
-	db := getTx(ctx, r.db)
 	var templates []*entity.MailTemplate
-	err := db.Model(&templates).Where("status = ?", status).Select()
+	err := r.db.Model(&templates).Where("status = ?", status).Select()
 	return templates, err
 }
 
 func (r *mailTemplateRepository) GetByProviderEmail(ctx context.Context, providerEmail string) ([]*entity.MailTemplate, error) {
-	db := getTx(ctx, r.db)
 	var templates []*entity.MailTemplate
-	err := db.Model(&templates).Where("provider_email = ?", providerEmail).Select()
+	err := r.db.Model(&templates).Where("provider_email = ?", providerEmail).Select()
 	return templates, err
 }
 
 func (r *mailTemplateRepository) Update(ctx context.Context, template *entity.MailTemplate) error {
-	db := getTx(ctx, r.db)
-	_, err := db.Model(template).Where("id = ?", template.ID).Update()
+	_, err := r.db.Model(template).Where("id = ?", template.ID).Update()
 	return err
 }
 
 func (r *mailTemplateRepository) Delete(ctx context.Context, id string) error {
-	db := getTx(ctx, r.db)
-	_, err := db.Model(&entity.MailTemplate{}).Where("id = ?", id).Delete()
+	_, err := r.db.Model(&entity.MailTemplate{}).Where("id = ?", id).Delete()
 	return err
 }
 
 func (r *mailTemplateRepository) UpdateStatus(ctx context.Context, id string, status common.Status) error {
-	db := getTx(ctx, r.db)
-	_, err := db.Model(&entity.MailTemplate{}).Set("status = ?", status).Where("id = ?", id).Update()
+	_, err := r.db.Model(&entity.MailTemplate{}).Set("status = ?", status).Where("id = ?", id).Update()
 	return err
 }

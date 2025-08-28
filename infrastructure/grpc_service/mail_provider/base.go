@@ -1,7 +1,6 @@
 package grpcmailprovider
 
 import (
-	"mail-service/bootstrap"
 	usecase "mail-service/domain/usecase/mail_provider"
 	"mail-service/infrastructure/repo"
 
@@ -19,7 +18,7 @@ type mailProviderService struct {
 	getAllMailProviderUsecase usecase.GetAllMailProviderUsecase
 }
 
-func NewMailProviderService(db *pg.DB, env *bootstrap.Env) proto_mail_provider.MailProviderServiceServer {
+func NewMailProviderService(db *pg.DB) proto_mail_provider.MailProviderServiceServer {
 	mailProviderRepository := repo.NewMailProviderRepository(db)
 	return &mailProviderService{
 		createMailProviderUsecase: usecase.NewCreateMailProviderUsecase(mailProviderRepository),

@@ -20,15 +20,13 @@ func NewMailStatusRepository(db *pg.DB) repository.MailStatusRepository {
 }
 
 func (r *mailStatusRepository) Create(ctx context.Context, status *entity.MailStatus) error {
-	db := getTx(ctx, r.db)
-	_, err := db.Model(status).Insert()
+	_, err := r.db.Model(status).Insert()
 	return err
 }
 
 func (r *mailStatusRepository) GetByStatus(ctx context.Context, status entity.StatusMail) (*entity.MailStatus, error) {
-	db := getTx(ctx, r.db)
 	mailStatus := &entity.MailStatus{}
-	err := db.Model(mailStatus).Where("status = ?", status).Select()
+	err := r.db.Model(mailStatus).Where("status = ?", status).Select()
 	if err != nil {
 		return nil, err
 	}
@@ -36,9 +34,8 @@ func (r *mailStatusRepository) GetByStatus(ctx context.Context, status entity.St
 }
 
 func (r *mailStatusRepository) GetByName(ctx context.Context, name string) (*entity.MailStatus, error) {
-	db := getTx(ctx, r.db)
 	mailStatus := &entity.MailStatus{}
-	err := db.Model(mailStatus).Where("name = ?", name).Select()
+	err := r.db.Model(mailStatus).Where("name = ?", name).Select()
 	if err != nil {
 		return nil, err
 	}
@@ -46,20 +43,17 @@ func (r *mailStatusRepository) GetByName(ctx context.Context, name string) (*ent
 }
 
 func (r *mailStatusRepository) GetAll(ctx context.Context) ([]*entity.MailStatus, error) {
-	db := getTx(ctx, r.db)
 	var statuses []*entity.MailStatus
-	err := db.Model(&statuses).Select()
+	err := r.db.Model(&statuses).Select()
 	return statuses, err
 }
 
 func (r *mailStatusRepository) Update(ctx context.Context, status *entity.MailStatus) error {
-	db := getTx(ctx, r.db)
-	_, err := db.Model(status).Where("status = ?", status.Status).Update()
+	_, err := r.db.Model(status).Where("status = ?", status.Status).Update()
 	return err
 }
 
 func (r *mailStatusRepository) Delete(ctx context.Context, status entity.StatusMail) error {
-	db := getTx(ctx, r.db)
-	_, err := db.Model(&entity.MailStatus{}).Where("status = ?", status).Delete()
+	_, err := r.db.Model(&entity.MailStatus{}).Where("status = ?", status).Delete()
 	return err
 }

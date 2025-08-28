@@ -1,7 +1,6 @@
 package grpcmailstatus
 
 import (
-	"mail-service/bootstrap"
 	usecase "mail-service/domain/usecase/mail_status"
 	"mail-service/infrastructure/repo"
 
@@ -19,7 +18,7 @@ type mailStatusService struct {
 	getAllMailStatusUsecase usecase.GetAllMailStatusUsecase
 }
 
-func NewMailStatusService(db *pg.DB, env *bootstrap.Env) proto_mail_status.MailStatusServiceServer {
+func NewMailStatusService(db *pg.DB) proto_mail_status.MailStatusServiceServer {
 	mailStatusRepository := repo.NewMailStatusRepository(db)
 	return &mailStatusService{
 		createMailStatusUsecase: usecase.NewCreateMailStatusUsecase(mailStatusRepository),

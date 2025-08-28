@@ -1,7 +1,6 @@
 package grpctypemail
 
 import (
-	"mail-service/bootstrap"
 	usecase "mail-service/domain/usecase/type_mail"
 	"mail-service/infrastructure/repo"
 
@@ -19,7 +18,7 @@ type typeMailService struct {
 	getAllTypeMailUsecase usecase.GetAllTypeMailUsecase
 }
 
-func NewTypeMailService(db *pg.DB, env *bootstrap.Env) proto.TypeMailServiceServer {
+func NewTypeMailService(db *pg.DB) proto.TypeMailServiceServer {
 	typeMailRepository := repo.NewTypeMailRepository(db)
 	return &typeMailService{
 		createTypeMailUsecase: usecase.NewCreateTypeMailUsecase(typeMailRepository),

@@ -4,7 +4,6 @@ import (
 	"context"
 
 	"mail-service/bootstrap"
-	"mail-service/infrastructure/discovery"
 	grpcservice "mail-service/infrastructure/grpc_service"
 	grpcmailhistory "mail-service/infrastructure/grpc_service/mail_history"
 	grpcmailprovider "mail-service/infrastructure/grpc_service/mail_provider"
@@ -12,6 +11,8 @@ import (
 	grpcmailtmpl "mail-service/infrastructure/grpc_service/mail_tmpl"
 	grpcstatushistory "mail-service/infrastructure/grpc_service/status_history"
 	grpctypemail "mail-service/infrastructure/grpc_service/type_mail"
+
+	"github.com/anhvanhoa/service-core/domain/discovery"
 )
 
 func main() {
@@ -24,20 +25,24 @@ func StartGRPCServer() {
 	log := app.Log
 	db := app.DB
 
-	discovery, err := discovery.NewDiscovery(log, env)
+	discoveryConfig := &discovery.DiscoveryConfig{
+		ServiceName: env.NAME_SERVICE,
+		ServicePort: env.PORT_GRPC,
+		ServiceHost: env.HOST_GRPC,
+	}
+
+	discovery, err := discovery.NewDiscovery(discoveryConfig)
 	if err != nil {
 		log.Fatal("Failed to create discovery: " + err.Error())
 	}
+	discovery.Register()
 
-	discovery.Register(env.NAME_SERVICE)
-	defer discovery.Close(env.NAME_SERVICE)
-
-	mailHistoryService := grpcmailhistory.NewMailHistoryService(db, env)
-	mailProviderService := grpcmailprovider.NewMailProviderService(db, env)
-	mailTmplService := grpcmailtmpl.NewMailTmplService(db, env)
-	mailStatusService := grpcmailstatus.NewMailStatusService(db, env)
-	typeMailService := grpctypemail.NewTypeMailService(db, env)
-	statusHistoryService := grpcstatushistory.NewStatusHistoryService(db, env)
+	mailHistoryService := grpcmailhistory.NewMailHistoryService(db)
+	mailProviderService := grpcmailprovider.NewMailProviderService(db)
+	mailTmplService := grpcmailtmpl.NewMailTmplService(db)
+	mailStatusService := grpcmailstatus.NewMailStatusService(db)
+	typeMailService := grpctypemail.NewTypeMailService(db)
+	statusHistoryService := grpcstatushistory.NewStatusHistoryService(db)
 	grpcSrv := grpcservice.NewGRPCServer(
 		env,
 		log,

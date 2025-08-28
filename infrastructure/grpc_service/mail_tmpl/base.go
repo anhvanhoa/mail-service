@@ -1,7 +1,6 @@
 package grpcmailtmpl
 
 import (
-	"mail-service/bootstrap"
 	usecase "mail-service/domain/usecase/mail_tmpl"
 	"mail-service/infrastructure/repo"
 
@@ -19,7 +18,7 @@ type mailTmplService struct {
 	getAllMailTmplUsecase usecase.GetAllMailTmplUsecase
 }
 
-func NewMailTmplService(db *pg.DB, env *bootstrap.Env) proto_mail_tmpl.MailTmplServiceServer {
+func NewMailTmplService(db *pg.DB) proto_mail_tmpl.MailTmplServiceServer {
 	mailTemplateRepository := repo.NewMailTemplateRepository(db)
 	return &mailTmplService{
 		createMailTmplUsecase: usecase.NewCreateMailTmplUsecase(mailTemplateRepository),
