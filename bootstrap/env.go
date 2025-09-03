@@ -7,15 +7,15 @@ import (
 )
 
 type Env struct {
-	NodeEnv string
+	NodeEnv string `mapstructure:"node_env"`
 
-	UrlDb string
+	UrlDb string `mapstructure:"url_db"`
 
-	NameService   string
-	PortGprc      int
-	HostGprc      string
-	IntervalCheck string
-	TimeoutCheck  string
+	NameService   string `mapstructure:"name_service"`
+	PortGprc      int    `mapstructure:"port_grpc"`
+	HostGprc      string `mapstructure:"host_grpc"`
+	IntervalCheck string `mapstructure:"interval_check"`
+	TimeoutCheck  string `mapstructure:"timeout_check"`
 }
 
 func NewEnv(env any) {
