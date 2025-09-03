@@ -7,15 +7,15 @@ import (
 )
 
 type Env struct {
-	NODE_ENV string
+	NodeEnv string
 
-	URL_DB string
+	UrlDb string
 
-	NAME_SERVICE   string
-	PORT_GRPC      int
-	HOST_GRPC      string
-	INTERVAL_CHECK string
-	TIMEOUT_CHECK  string
+	NameService   string
+	PortGprc      int
+	HostGprc      string
+	IntervalCheck string
+	TimeoutCheck  string
 }
 
 func NewEnv(env any) {
@@ -29,5 +29,5 @@ func NewEnv(env any) {
 }
 
 func (env *Env) IsProduction() bool {
-	return strings.ToLower(env.NODE_ENV) == "production"
+	return strings.ToLower(env.NodeEnv) == "production"
 }

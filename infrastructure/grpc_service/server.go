@@ -26,9 +26,9 @@ func NewGRPCServer(
 	statusHistoryService proto_status_history.StatusHistoryServiceServer,
 ) *grpc_service.GRPCServer {
 	config := &grpc_service.GRPCServerConfig{
-		PortGRPC:     env.PORT_GRPC,
+		PortGRPC:     env.PortGprc,
 		IsProduction: env.IsProduction(),
-		NameService:  env.NAME_SERVICE,
+		NameService:  env.NameService,
 	}
 	return grpc_service.NewGRPCServer(
 		config,
