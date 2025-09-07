@@ -24,21 +24,13 @@ func (mh *mailHistoryService) GetAllMailHistory(ctx context.Context, req *proto_
 			updatedAt = mh.UpdatedAt.Format(time.RFC3339)
 		}
 
-		// Convert map[string]any to map[string]string for proto
-		data := make(map[string]string)
-		for k, v := range mh.Data {
-			if str, ok := v.(string); ok {
-				data[k] = str
-			}
-		}
-
 		mailHistories = append(mailHistories, &proto_mail_history.MailHistory{
 			Id:            mh.ID,
 			TemplateId:    mh.TemplateId,
 			Subject:       mh.Subject,
 			Body:          mh.Body,
 			Tos:           mh.Tos,
-			Data:          data,
+			Data:          mh.Data,
 			EmailProvider: mh.EmailProvider,
 			CreatedBy:     mh.CreatedBy,
 			CreatedAt:     mh.CreatedAt.Format(time.RFC3339),

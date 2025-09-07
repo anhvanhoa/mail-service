@@ -21,14 +21,6 @@ func (mh *mailHistoryService) GetMailHistory(ctx context.Context, req *proto_mai
 		updatedAt = mailHistory.UpdatedAt.Format(time.RFC3339)
 	}
 
-	// Convert map[string]any to map[string]string for proto
-	data := make(map[string]string)
-	for k, v := range mailHistory.Data {
-		if str, ok := v.(string); ok {
-			data[k] = str
-		}
-	}
-
 	return &proto_mail_history.GetMailHistoryResponse{
 		Message: "Mail history retrieved successfully",
 		MailHistory: &proto_mail_history.MailHistory{
@@ -37,7 +29,7 @@ func (mh *mailHistoryService) GetMailHistory(ctx context.Context, req *proto_mai
 			Subject:       mailHistory.Subject,
 			Body:          mailHistory.Body,
 			Tos:           mailHistory.Tos,
-			Data:          data,
+			Data:          mailHistory.Data,
 			EmailProvider: mailHistory.EmailProvider,
 			CreatedBy:     mailHistory.CreatedBy,
 			CreatedAt:     mailHistory.CreatedAt.Format(time.RFC3339),

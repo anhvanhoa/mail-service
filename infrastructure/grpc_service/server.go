@@ -3,7 +3,7 @@ package grpcservice
 import (
 	"mail-service/bootstrap"
 
-	grpc_service "github.com/anhvanhoa/service-core/boostrap/grpc"
+	grpc_service "github.com/anhvanhoa/service-core/bootstrap/grpc"
 	"github.com/anhvanhoa/service-core/domain/log"
 	proto_mail_history "github.com/anhvanhoa/sf-proto/gen/mail_history/v1"
 	proto_mail_provider "github.com/anhvanhoa/sf-proto/gen/mail_provider/v1"

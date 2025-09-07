@@ -18,11 +18,12 @@ func (mtmpl *mailTmplService) GetMailTmpl(ctx context.Context, req *proto_mail_t
 	return &proto_mail_tmpl.GetMailTmplResponse{
 		Message: "Mail template fetched successfully",
 		MailTmpl: &proto_mail_tmpl.MailTmpl{
-			Id:        mailTmpl.ID,
-			Subject:   mailTmpl.Subject,
-			Body:      mailTmpl.Body,
-			CreatedBy: mailTmpl.CreatedBy,
-			CreatedAt: mailTmpl.CreatedAt.Format(time.RFC3339),
+			Id:            mailTmpl.ID,
+			Subject:       mailTmpl.Subject,
+			Body:          mailTmpl.Body,
+			ProviderEmail: mailTmpl.ProviderEmail,
+			CreatedBy:     mailTmpl.CreatedBy,
+			CreatedAt:     mailTmpl.CreatedAt.Format(time.RFC3339),
 		},
 	}, nil
 }

@@ -19,14 +19,9 @@ func (mh *mailHistoryService) UpdateMailHistory(ctx context.Context, req *proto_
 		Subject:       req.Subject,
 		Body:          req.Body,
 		Tos:           req.Tos,
-		Data:          make(map[string]any),
+		Data:          req.Data,
 		EmailProvider: req.EmailProvider,
 		UpdatedAt:     &now,
-	}
-
-	// Convert map[string]string to map[string]any
-	for k, v := range req.Data {
-		mailHistory.Data[k] = v
 	}
 
 	err := mh.updateMailHistoryUsecase.Execute(ctx, &mailHistory)

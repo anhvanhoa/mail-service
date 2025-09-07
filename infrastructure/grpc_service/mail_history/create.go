@@ -17,15 +17,10 @@ func (mh *mailHistoryService) CreateMailHistory(ctx context.Context, req *proto_
 		Subject:       req.Subject,
 		Body:          req.Body,
 		Tos:           req.Tos,
-		Data:          make(map[string]any),
+		Data:          req.Data,
 		EmailProvider: req.EmailProvider,
 		CreatedBy:     req.CreatedBy,
 		CreatedAt:     time.Now(),
-	}
-
-	// Convert map[string]string to map[string]any
-	for k, v := range req.Data {
-		mailHistory.Data[k] = v
 	}
 
 	if req.CreatedAt != "" {

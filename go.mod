@@ -3,8 +3,8 @@ module mail-service
 go 1.24.6
 
 require (
-	github.com/anhvanhoa/service-core v0.0.0-20250828100424-d6be367a7646
-	github.com/anhvanhoa/sf-proto v1.1.1
+	github.com/anhvanhoa/service-core v0.0.0-20250907081014-79954206dad1
+	github.com/anhvanhoa/sf-proto v1.1.6-0.20250907192527-52435e929323
 	github.com/go-pg/pg/v10 v10.15.0
 	go.uber.org/zap v1.27.0
 	google.golang.org/grpc v1.75.0
