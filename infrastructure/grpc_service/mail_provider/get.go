@@ -12,6 +12,9 @@ import (
 
 func (mp *mailProviderService) GetMailProvider(ctx context.Context, req *proto_mail_provider.GetMailProviderRequest) (*proto_mail_provider.GetMailProviderResponse, error) {
 	mailProvider, err := mp.getMailProviderUsecase.Execute(ctx, req.Email)
+	if mailProvider == nil {
+		return nil, status.Errorf(codes.NotFound, "Mail provider không tồn tại")
+	}
 	if err != nil {
 		return nil, status.Errorf(codes.NotFound, "Mail provider không tồn tại: %v", err)
 	}

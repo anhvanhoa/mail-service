@@ -64,7 +64,7 @@ func (r *mailHistoryRepository) GetAll(ctx context.Context) ([]*entity.MailHisto
 }
 
 func (r *mailHistoryRepository) Update(ctx context.Context, history *entity.MailHistory) error {
-	_, err := r.db.Model(history).Where("id = ?", history.ID).Update()
+	_, err := r.db.Model(history).Where("id = ?", history.ID).UpdateNotZero()
 	return err
 }
 
