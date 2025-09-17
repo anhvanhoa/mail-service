@@ -40,7 +40,7 @@ func (r *mailProviderRepository) GetAll(ctx context.Context) ([]*entity.MailProv
 }
 
 func (r *mailProviderRepository) Update(ctx context.Context, provider *entity.MailProvider) error {
-	_, err := r.db.Model(provider).Where("email = ?", provider.Email).Update()
+	_, err := r.db.Model(provider).Where("email = ?", provider.Email).UpdateNotZero()
 	return err
 }
 

@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS mail_histories (
     email_provider VARCHAR(255) NOT NULL,
     created_by VARCHAR(255),
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP NULL
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE INDEX IF NOT EXISTS idx_mail_histories_id ON mail_histories (id);

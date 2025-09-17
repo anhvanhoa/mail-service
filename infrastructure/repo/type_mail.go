@@ -55,7 +55,7 @@ func (r *typeMailRepository) GetAll(ctx context.Context) ([]*entity.TypeMail, er
 }
 
 func (r *typeMailRepository) Update(ctx context.Context, typeMail *entity.TypeMail) error {
-	_, err := r.db.Model(typeMail).Where("id = ?", typeMail.ID).Update()
+	_, err := r.db.Model(typeMail).Where("id = ?", typeMail.ID).UpdateNotZero()
 	return err
 }
 

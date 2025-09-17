@@ -13,20 +13,7 @@ import (
 )
 
 func (mp *mailProviderService) CreateMailProvider(ctx context.Context, req *proto_mail_provider.CreateMailProviderRequest) (*proto_mail_provider.CreateMailProviderResponse, error) {
-	mailProvider := entity.MailProvider{
-		Email:      req.Email,
-		Password:   req.Password,
-		UserName:   req.UserName,
-		Port:       int(req.Port),
-		Host:       req.Host,
-		Encryption: req.Encryption,
-		Name:       req.Name,
-		TypeId:     req.TypeId,
-		CreatedBy:  req.CreatedBy,
-		CreatedAt:  time.Now(),
-		Status:     common.StatusActive,
-	}
-
+	mailProvider := mp.createEntityMailProvider(req)
 	if req.CreatedAt != "" {
 		createdAt, err := time.Parse(time.RFC3339, req.CreatedAt)
 		if err != nil {
@@ -35,7 +22,7 @@ func (mp *mailProviderService) CreateMailProvider(ctx context.Context, req *prot
 		mailProvider.CreatedAt = createdAt
 	}
 
-	err := mp.createMailProviderUsecase.Execute(ctx, &mailProvider)
+	err := mp.createMailProviderUsecase.Execute(ctx, mailProvider)
 	if err != nil {
 		return nil, status.Errorf(codes.Internal, "Lỗi tạo mail provider: %v", err)
 	}
@@ -53,7 +40,22 @@ func (mp *mailProviderService) CreateMailProvider(ctx context.Context, req *prot
 			TypeId:     mailProvider.TypeId,
 			CreatedBy:  mailProvider.CreatedBy,
 			CreatedAt:  mailProvider.CreatedAt.Format(time.RFC3339),
-			UpdatedAt:  mailProvider.UpdatedAt.Format(time.RFC3339),
 		},
 	}, nil
+}
+
+func (mp *mailProviderService) createEntityMailProvider(req *proto_mail_provider.CreateMailProviderRequest) *entity.MailProvider {
+	return &entity.MailProvider{
+		Email:      req.Email,
+		Password:   req.Password,
+		UserName:   req.UserName,
+		Port:       int(req.Port),
+		Name:       req.Name,
+		TypeId:     req.TypeId,
+		CreatedBy:  req.CreatedBy,
+		CreatedAt:  time.Now(),
+		Status:     common.StatusActive,
+		Host:       req.Host,
+		Encryption: req.Encryption,
+	}
 }

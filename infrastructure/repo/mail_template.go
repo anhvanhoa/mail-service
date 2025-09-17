@@ -62,7 +62,7 @@ func (r *mailTemplateRepository) GetByProviderEmail(ctx context.Context, provide
 }
 
 func (r *mailTemplateRepository) Update(ctx context.Context, template *entity.MailTemplate) error {
-	_, err := r.db.Model(template).Where("id = ?", template.ID).Update()
+	_, err := r.db.Model(template).Where("id = ?", template.ID).UpdateNotZero()
 	return err
 }
 

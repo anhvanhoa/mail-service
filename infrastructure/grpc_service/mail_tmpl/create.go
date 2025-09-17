@@ -13,32 +13,47 @@ import (
 )
 
 func (mtmpl *mailTmplService) CreateMailTmpl(ctx context.Context, req *proto_mail_tmpl.CreateMailTmplRequest) (*proto_mail_tmpl.CreateMailTmplResponse, error) {
-	mailTmpl := entity.MailTemplate{
+	mailTmpl := mtmpl.createEntityMailTmpl(req)
+
+	err := mtmpl.createMailTmplUsecase.Execute(ctx, mailTmpl)
+	if err != nil {
+		return nil, status.Errorf(codes.Internal, "Lỗi tạo mail template: %v", err)
+	}
+
+	return &proto_mail_tmpl.CreateMailTmplResponse{
+		Message:  "Mail template created successfully",
+		MailTmpl: mtmpl.createResponseMailTmpl(mailTmpl),
+	}, nil
+}
+
+func (mtmpl *mailTmplService) createEntityMailTmpl(req *proto_mail_tmpl.CreateMailTmplRequest) *entity.MailTemplate {
+	return &entity.MailTemplate{
+		ID:            req.Id,
+		Name:          req.Name,
 		Subject:       req.Subject,
+		Keys:          req.Keys,
 		Body:          req.Body,
 		CreatedBy:     req.CreatedBy,
 		CreatedAt:     time.Now(),
 		Status:        common.Status(req.Status),
 		ProviderEmail: req.ProviderEmail,
 	}
+}
 
-	if req.CreatedAt != "" {
-		createdAt, err := time.Parse(time.RFC3339, req.CreatedAt)
-		if err != nil {
-			return nil, status.Errorf(codes.InvalidArgument, "Thời gian tạo không hợp lệ")
-		}
-		mailTmpl.CreatedAt = createdAt
+func (mtmpl *mailTmplService) createResponseMailTmpl(mailTmpl *entity.MailTemplate) *proto_mail_tmpl.MailTmpl {
+	var updatedAt string
+	if mailTmpl.UpdatedAt != nil {
+		updatedAt = mailTmpl.UpdatedAt.Format(time.RFC3339)
 	}
-
-	mtmpl.createMailTmplUsecase.Execute(ctx, &mailTmpl)
-	return &proto_mail_tmpl.CreateMailTmplResponse{
-		Message: "Mail template created successfully",
-		MailTmpl: &proto_mail_tmpl.MailTmpl{
-			Id:        mailTmpl.ID,
-			Subject:   mailTmpl.Subject,
-			Body:      mailTmpl.Body,
-			CreatedBy: mailTmpl.CreatedBy,
-			CreatedAt: mailTmpl.CreatedAt.Format(time.RFC3339),
-		},
-	}, nil
+	return &proto_mail_tmpl.MailTmpl{
+		Id:            mailTmpl.ID,
+		Name:          mailTmpl.Name,
+		Subject:       mailTmpl.Subject,
+		Keys:          mailTmpl.Keys,
+		Body:          mailTmpl.Body,
+		ProviderEmail: mailTmpl.ProviderEmail,
+		CreatedBy:     mailTmpl.CreatedBy,
+		UpdatedAt:     updatedAt,
+		CreatedAt:     mailTmpl.CreatedAt.Format(time.RFC3339),
+	}
 }

@@ -13,6 +13,7 @@ import (
 
 func (mh *mailHistoryService) CreateMailHistory(ctx context.Context, req *proto_mail_history.CreateMailHistoryRequest) (*proto_mail_history.CreateMailHistoryResponse, error) {
 	mailHistory := entity.MailHistory{
+		ID:            req.Id,
 		TemplateId:    req.TemplateId,
 		Subject:       req.Subject,
 		Body:          req.Body,

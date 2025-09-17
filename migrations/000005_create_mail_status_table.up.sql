@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS mail_status (
     name VARCHAR(255),
     created_by VARCHAR(255) NOT NULL,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 INSERT INTO mail_status (status, name, created_by) VALUES ('pending', 'Pending', 'system');

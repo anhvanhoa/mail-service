@@ -11,9 +11,6 @@ import (
 
 type mailStatusService struct {
 	proto_mail_status.UnsafeMailStatusServiceServer
-	createMailStatusUsecase usecase.CreateMailStatusUsecase
-	updateMailStatusUsecase usecase.UpdateByStatusMailStatusUsecase
-	deleteMailStatusUsecase usecase.DeleteByStatusMailStatusUsecase
 	getMailStatusUsecase    usecase.GetByStatusMailStatusUsecase
 	getAllMailStatusUsecase usecase.GetAllMailStatusUsecase
 }
@@ -21,9 +18,6 @@ type mailStatusService struct {
 func NewMailStatusService(db *pg.DB) proto_mail_status.MailStatusServiceServer {
 	mailStatusRepository := repo.NewMailStatusRepository(db)
 	return &mailStatusService{
-		createMailStatusUsecase: usecase.NewCreateMailStatusUsecase(mailStatusRepository),
-		updateMailStatusUsecase: usecase.NewUpdateByStatusMailStatusUsecase(mailStatusRepository),
-		deleteMailStatusUsecase: usecase.NewDeleteByStatusMailStatusUsecase(mailStatusRepository),
 		getMailStatusUsecase:    usecase.NewGetByStatusMailStatusUsecase(mailStatusRepository),
 		getAllMailStatusUsecase: usecase.NewGetAllMailStatusUsecase(mailStatusRepository),
 	}

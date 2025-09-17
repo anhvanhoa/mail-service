@@ -16,9 +16,12 @@ func (mp *mailProviderService) GetAllMailProvider(ctx context.Context, req *prot
 		return nil, status.Errorf(codes.Internal, "Lỗi lấy danh sách mail provider: %v", err)
 	}
 
-	// Convert to proto response
 	var mailProviders []*proto_mail_provider.MailProvider
 	for _, mp := range result {
+		var updatedAt string
+		if mp.UpdatedAt != nil {
+			updatedAt = mp.UpdatedAt.Format(time.RFC3339)
+		}
 		mailProviders = append(mailProviders, &proto_mail_provider.MailProvider{
 			Email:      mp.Email,
 			Password:   mp.Password,
@@ -30,7 +33,7 @@ func (mp *mailProviderService) GetAllMailProvider(ctx context.Context, req *prot
 			TypeId:     mp.TypeId,
 			CreatedBy:  mp.CreatedBy,
 			CreatedAt:  mp.CreatedAt.Format(time.RFC3339),
-			UpdatedAt:  mp.UpdatedAt.Format(time.RFC3339),
+			UpdatedAt:  updatedAt,
 		})
 	}
 

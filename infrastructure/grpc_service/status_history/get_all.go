@@ -15,7 +15,6 @@ func (sh *statusHistoryService) GetAllStatusHistory(ctx context.Context, req *pr
 		return nil, status.Errorf(codes.Internal, "Lỗi lấy danh sách status history: %v", err)
 	}
 
-	// Convert to proto response
 	var statusHistories []*proto_status_history.StatusHistory
 	for _, sh := range result {
 		statusHistories = append(statusHistories, &proto_status_history.StatusHistory{

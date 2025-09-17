@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS mail_templates (
     status mail_template_status NOT NULL,
     created_by VARCHAR(255),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE INDEX IF NOT EXISTS idx_mail_templates_name ON mail_templates (name);
