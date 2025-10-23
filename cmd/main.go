@@ -55,6 +55,7 @@ func StartGRPCServer() {
 	grpcSrv := grpcservice.NewGRPCServer(
 		env,
 		log,
+		app.Cache,
 		mailHistoryService,
 		mailProviderService,
 		mailTmplService,

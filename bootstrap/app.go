@@ -2,6 +2,7 @@ package bootstrap
 
 import (
 	"github.com/anhvanhoa/service-core/bootstrap/db"
+	"github.com/anhvanhoa/service-core/domain/cache"
 	"github.com/anhvanhoa/service-core/domain/log"
 	"github.com/anhvanhoa/service-core/utils"
 	"github.com/go-pg/pg/v10"
@@ -13,6 +14,7 @@ type Application struct {
 	DB     *pg.DB
 	Log    *log.LogGRPCImpl
 	Helper utils.Helper
+	Cache  cache.CacheI
 }
 
 func App() *Application {
@@ -25,10 +27,21 @@ func App() *Application {
 		Mode: env.NodeEnv,
 	})
 	helper := utils.NewHelper()
+	configRedis := cache.NewConfigCache(
+		env.DbCache.Addr,
+		env.DbCache.Password,
+		env.DbCache.Db,
+		env.DbCache.Network,
+		env.DbCache.MaxIdle,
+		env.DbCache.MaxActive,
+		env.DbCache.IdleTimeout,
+	)
+	cache := cache.NewCache(configRedis)
 	return &Application{
 		Env:    &env,
 		DB:     db,
 		Log:    log,
 		Helper: helper,
+		Cache:  cache,
 	}
 }

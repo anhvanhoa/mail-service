@@ -4,7 +4,9 @@ import (
 	"mail-service/bootstrap"
 
 	grpc_service "github.com/anhvanhoa/service-core/bootstrap/grpc"
+	"github.com/anhvanhoa/service-core/domain/cache"
 	"github.com/anhvanhoa/service-core/domain/log"
+	"github.com/anhvanhoa/service-core/domain/user_context"
 	proto_mail_history "github.com/anhvanhoa/sf-proto/gen/mail_history/v1"
 	proto_mail_provider "github.com/anhvanhoa/sf-proto/gen/mail_provider/v1"
 	proto_mail_status "github.com/anhvanhoa/sf-proto/gen/mail_status/v1"
@@ -18,6 +20,7 @@ import (
 func NewGRPCServer(
 	env *bootstrap.Env,
 	log *log.LogGRPCImpl,
+	cacher cache.CacheI,
 	mailHistoryService proto_mail_history.MailHistoryServiceServer,
 	mailProviderService proto_mail_provider.MailProviderServiceServer,
 	mailTmplService proto_mail_tmpl.MailTmplServiceServer,
@@ -30,6 +33,7 @@ func NewGRPCServer(
 		IsProduction: env.IsProduction(),
 		NameService:  env.NameService,
 	}
+	middleware := grpc_service.NewMiddleware()
 	return grpc_service.NewGRPCServer(
 		config,
 		log,
@@ -41,5 +45,24 @@ func NewGRPCServer(
 			proto_mail_provider.RegisterMailProviderServiceServer(server, mailProviderService)
 			proto_mail_history.RegisterMailHistoryServiceServer(server, mailHistoryService)
 		},
+		middleware.AuthorizationInterceptor(
+			env.SecretService,
+			func(action string, resource string) bool {
+				hasPermission, err := cacher.Get(resource + "." + action)
+				if err != nil {
+					return false
+				}
+				return hasPermission != nil && string(hasPermission) == "true"
+			},
+			func(id string) *user_context.UserContext {
+				userData, err := cacher.Get(id)
+				if err != nil || userData == nil {
+					return nil
+				}
+				uCtx := user_context.NewUserContext()
+				uCtx.FromBytes(userData)
+				return uCtx
+			},
+		),
 	)
 }
