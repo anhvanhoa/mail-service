@@ -3,14 +3,16 @@ package bootstrap
 import (
 	"github.com/anhvanhoa/service-core/bootstrap/db"
 	"github.com/anhvanhoa/service-core/domain/log"
+	"github.com/anhvanhoa/service-core/utils"
 	"github.com/go-pg/pg/v10"
 	"go.uber.org/zap/zapcore"
 )
 
 type Application struct {
-	Env *Env
-	DB  *pg.DB
-	Log *log.LogGRPCImpl
+	Env    *Env
+	DB     *pg.DB
+	Log    *log.LogGRPCImpl
+	Helper utils.Helper
 }
 
 func App() *Application {
@@ -22,9 +24,11 @@ func App() *Application {
 		URL:  env.UrlDb,
 		Mode: env.NodeEnv,
 	})
+	helper := utils.NewHelper()
 	return &Application{
-		Env: &env,
-		DB:  db,
-		Log: log,
+		Env:    &env,
+		DB:     db,
+		Log:    log,
+		Helper: helper,
 	}
 }
