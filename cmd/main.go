@@ -14,8 +14,6 @@ import (
 	grpctypemail "mail-service/infrastructure/grpc_service/type_mail"
 
 	gc "github.com/anhvanhoa/service-core/domain/grpc_client"
-
-	"github.com/anhvanhoa/service-core/domain/discovery"
 )
 
 func main() {
@@ -27,20 +25,6 @@ func StartGRPCServer() {
 	env := app.Env
 	log := app.Log
 	db := app.DB
-
-	discoveryConfig := &discovery.DiscoveryConfig{
-		ServiceName:   env.NameService,
-		ServicePort:   env.PortGrpc,
-		ServiceHost:   env.HostGrpc,
-		IntervalCheck: env.IntervalCheck,
-		TimeoutCheck:  env.TimeoutCheck,
-	}
-
-	discovery, err := discovery.NewDiscovery(discoveryConfig)
-	if err != nil {
-		log.Fatal("Failed to create discovery: " + err.Error())
-	}
-	discovery.Register()
 
 	clientFactory := gc.NewClientFactory(env.GrpcClients...)
 	client := clientFactory.GetClient(env.PermissionServiceAddr)
