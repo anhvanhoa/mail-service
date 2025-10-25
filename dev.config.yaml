@@ -1,7 +1,7 @@
 node_env: 'development'
 url_db: 'postgres://postgres:123456@localhost:5432/mail_service_db?sslmode=disable'
 name_service: 'MailService'
-port_grpc: 50052
+port_grpc: 40052
 host_grpc: 'localhost'
 interval_check: '20s'
 timeout_check: '15s'
