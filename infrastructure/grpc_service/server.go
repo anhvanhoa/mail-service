@@ -6,6 +6,7 @@ import (
 	grpc_service "github.com/anhvanhoa/service-core/bootstrap/grpc"
 	"github.com/anhvanhoa/service-core/domain/cache"
 	"github.com/anhvanhoa/service-core/domain/log"
+	"github.com/anhvanhoa/service-core/domain/token"
 	"github.com/anhvanhoa/service-core/domain/user_context"
 	proto_mail_history "github.com/anhvanhoa/sf-proto/gen/mail_history/v1"
 	proto_mail_provider "github.com/anhvanhoa/sf-proto/gen/mail_provider/v1"
@@ -33,7 +34,9 @@ func NewGRPCServer(
 		IsProduction: env.IsProduction(),
 		NameService:  env.NameService,
 	}
-	middleware := grpc_service.NewMiddleware()
+	middleware := grpc_service.NewMiddleware(
+		token.NewToken(env.AccessSecret),
+	)
 	return grpc_service.NewGRPCServer(
 		config,
 		log,
